@@ -23,15 +23,14 @@
 <body>
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" th:href="@{/index}">Работа мечты</a>
+        <a class="navbar-brand" href="#">Dream Job </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" th:href="@{/index}">Главная<span
-                        class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" href="#">Главная</a>
                 <a class="nav-item nav-link" th:href="@{/posts}">Вакансии</a>
                 <a class="nav-item nav-link" th:href="@{/addPost}">Добавить вакансию</a>
                 <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
@@ -39,22 +38,25 @@
             </div>
         </div>
     </nav>
-    <div class="card" style="width: 100%">
-        <div class="card-header">
-            Новая вакансия.
-        </div>
-        <div class="card-body">
-            <form>
-                <div class="from-group">
-                    <label>Имя
-                        <input type="text" class="from-control">
-                    </label>
-                    <label>Описание
-                        <input type="text" class="from-control">
-                    </label>
-                </div>
-                <button type="submit" class="btn btn-primary">Сохранить</button>
-            </form>
+    <div class="row pt-3">
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                Новая вакансия.
+            </div>
+            <div class="card-body">
+                <form th:action="@{/savePost}" method="POST">
+                    <input type="hidden" name="id" value="0">
+                    <div class="from-group">
+                        <label for="name">Имя</label>
+                        <input type="text" class="from-control" name="name" id="name">
+                    </div>
+                    <div class="from-group">
+                        <label for="description">Описание</label>
+                        <input type="text" class="from-control" name="description" id="description">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
