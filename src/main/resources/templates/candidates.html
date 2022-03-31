@@ -17,6 +17,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title>Работа мечты!</title>
 </head>
@@ -52,7 +53,12 @@
             <tbody>
             <tr th:each="candidate: ${candidates}">
                 <td th:text="${candidate.id}"/>
-                <td th:text="${candidate.name}"/>
+                <td>
+                    <a th:href="@{|/updateCandidate/${candidate.id}|}">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <span th:text="${candidate.name}"></span>
+                </td>
                 <td th:text="${candidate.description}"/>
                 <td th:text="${candidate.created}"/>
             </tr>

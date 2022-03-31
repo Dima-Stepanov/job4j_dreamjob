@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 3.2.2. Html, Bootstrap, Thymeleaf
  * 4. Thymeleaf, Циклы. [#504841]
  * PostStore. Хранилище Post. Singleton.
+ * 4. PostController.savePost. Редактирование вакансии. [#504850]
  *
  * @author Dmitry Stepanov, user Dmitry
  * @since 28.03.2022
@@ -31,11 +32,19 @@ public class PostStore {
         return INST;
     }
 
-    public Post add(Post post) {
+    public Post create(Post post) {
         return posts.computeIfAbsent(key.incrementAndGet(), k -> {
             post.setId(k);
             return post;
         });
+    }
+
+    public Post update(Post post) {
+        return posts.replace(post.getId(), post);
+    }
+
+    public Post findById(int id) {
+        return posts.get(id);
     }
 
     public Collection<Post> findAll() {
