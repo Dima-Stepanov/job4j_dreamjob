@@ -15,6 +15,7 @@ import ru.job4j.dream.store.CandidateStore;
  * CandidateController контроллер.
  * 8. HTML form. Создание кандидата. [#504845]
  * 4. PostController.savePost. Редактирование вакансии. [#504850]
+ * 5. Создания и редактирования кандидатов. [#504858]
  *
  * @author Dmitry Stepanov, user Dmitry
  * @since 28.03.2022

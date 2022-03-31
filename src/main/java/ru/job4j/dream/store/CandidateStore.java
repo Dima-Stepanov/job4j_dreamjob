@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 5. Список Вакансий [#504842]
  * PostStore. Хранилище Post. Singleton.
  * 4. PostController.savePost. Редактирование вакансии. [#504850]
+ * 5. Создания и редактирования кандидатов. [#504858]
  *
  * @author Dmitry Stepanov, user Dmitry
  * @since 28.03.2022

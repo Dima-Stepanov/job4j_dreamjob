@@ -7,6 +7,7 @@ import java.util.Objects;
  * 3.2.2. Html, Bootstrap, Thymeleaf
  * 5. Список Вакансий [#504842]
  * Candidate. Модель данных кандидатов.
+ * 5. Создания и редактирования кандидатов. [#504858]
  *
  * @author Dmitry Stepanov, user Dmitry
  * @since 28.03.2022
