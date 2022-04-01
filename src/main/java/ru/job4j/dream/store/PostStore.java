@@ -1,5 +1,6 @@
 package ru.job4j.dream.store;
 
+import net.jcip.annotations.ThreadSafe;
 import ru.job4j.dream.model.Post;
 import org.springframework.stereotype.Repository;
 
@@ -21,21 +22,19 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 28.03.2022
  */
 @Repository
+@ThreadSafe
 public class PostStore {
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final AtomicInteger key = new AtomicInteger();
 
     private PostStore() {
-        posts.put(1, new Post(key.incrementAndGet(), "Junior Java Job", "salary 1000$"));
-        posts.put(2, new Post(key.incrementAndGet(), "Middle Java Job", "salary 2000$"));
-        posts.put(3, new Post(key.incrementAndGet(), "Senior Java Job", "salary 4000$"));
+        posts.computeIfAbsent(key.incrementAndGet(), k -> new Post(k, "Junior Java Job", "salary 1000$"));
+        posts.computeIfAbsent(key.incrementAndGet(), k -> new Post(k, "Middle Java Job", "salary 2000$"));
+        posts.computeIfAbsent(key.incrementAndGet(), k -> new Post(k, "Senior Java Job", "salary 4000$"));
     }
 
     public Post create(Post post) {
-        return posts.computeIfAbsent(key.incrementAndGet(), k -> {
-            post.setId(k);
-            return post;
-        });
+        return posts.computeIfAbsent(key.incrementAndGet(), k -> new Post(k, post.getName(), post.getDescription()));
     }
 
     public Post update(Post post) {
