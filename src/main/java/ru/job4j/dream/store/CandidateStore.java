@@ -1,5 +1,6 @@
-package ru.job4j.dream.persistence;
+package ru.job4j.dream.store;
 
+import org.springframework.stereotype.Repository;
 import ru.job4j.dream.model.Candidate;
 
 import java.util.Collection;
@@ -15,12 +16,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 5. Создания и редактирования кандидатов. [#504858]
  * 3.2.4. Архитектура Web приложений.
  * 1. Слоеная архитектура. Принцип DI. [#504851].
+ * 2. Связь слоев через Spring DI. [#504856]
  *
  * @author Dmitry Stepanov, user Dmitry
  * @since 28.03.2022
  */
-public class CandidateStore implements Store<Candidate> {
-    private static final CandidateStore INST = new CandidateStore();
+@Repository
+public class CandidateStore {
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
     private final AtomicInteger key = new AtomicInteger();
 
@@ -28,10 +30,6 @@ public class CandidateStore implements Store<Candidate> {
         candidates.put(1, new Candidate(key.incrementAndGet(), "Dmitriy Petrov", "Junior Developer"));
         candidates.put(2, new Candidate(key.incrementAndGet(), "Ivan Ivanov", "Middle Developer"));
         candidates.put(3, new Candidate(key.incrementAndGet(), "Sergey Galkin", "Senior Developer"));
-    }
-
-    public static CandidateStore instOf() {
-        return INST;
     }
 
     public Candidate create(Candidate candidate) {

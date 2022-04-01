@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.dream.model.Post;
-import ru.job4j.dream.persistence.PostStore;
 import ru.job4j.dream.service.PostService;
 
 
@@ -19,13 +18,18 @@ import ru.job4j.dream.service.PostService;
  * 4. PostController.savePost. Редактирование вакансии. [#504850]
  * 3.2.4. Архитектура Web приложений.
  * 1. Слоеная архитектура. Принцип DI. [#504851].
+ * 2. Связь слоев через Spring DI. [#504856]
  *
  * @author Dmitry Stepanov, user Dmitry
  * @since 28.03.2022
  */
 @Controller
 public class PostController {
-    private final PostService postService = new PostService(PostStore.instOf());
+    private final PostService postService;
+
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
 
     @GetMapping("/posts")
     public String posts(Model model) {

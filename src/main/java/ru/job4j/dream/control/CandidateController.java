@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.dream.model.Candidate;
-import ru.job4j.dream.persistence.CandidateStore;
+import ru.job4j.dream.store.CandidateStore;
 import ru.job4j.dream.service.CandidateService;
 
 /**
@@ -19,13 +19,18 @@ import ru.job4j.dream.service.CandidateService;
  * 5. Создания и редактирования кандидатов. [#504858]
  * 3.2.4. Архитектура Web приложений.
  * 1. Слоеная архитектура. Принцип DI. [#504851].
+ * 2. Связь слоев через Spring DI. [#504856]
  *
  * @author Dmitry Stepanov, user Dmitry
  * @since 28.03.2022
  */
 @Controller
 public class CandidateController {
-    private final CandidateService candidateService = new CandidateService(CandidateStore.instOf());
+    private final CandidateService candidateService;
+
+    public CandidateController(CandidateService service) {
+        this.candidateService = service;
+    }
 
     @GetMapping("/candidates")
     public String candidates(Model model) {
