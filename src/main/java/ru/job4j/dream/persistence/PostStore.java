@@ -1,4 +1,4 @@
-package ru.job4j.dream.store;
+package ru.job4j.dream.persistence;
 
 import ru.job4j.dream.model.Post;
 
@@ -12,12 +12,14 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 4. Thymeleaf, Циклы. [#504841]
  * PostStore. Хранилище Post. Singleton.
  * 4. PostController.savePost. Редактирование вакансии. [#504850]
+ * 3.2.4. Архитектура Web приложений.
+ * 1. Слоеная архитектура. Принцип DI. [#504851].
  *
  * @author Dmitry Stepanov, user Dmitry
  * @since 28.03.2022
  */
 
-public class PostStore {
+public class PostStore implements Store<Post> {
     private static final PostStore INST = new PostStore();
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final AtomicInteger key = new AtomicInteger();

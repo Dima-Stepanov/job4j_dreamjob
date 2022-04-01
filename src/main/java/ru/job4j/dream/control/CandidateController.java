@@ -1,4 +1,4 @@
-package ru.job4j.dream.controller;
+package ru.job4j.dream.control;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.dream.model.Candidate;
-import ru.job4j.dream.store.CandidateStore;
+import ru.job4j.dream.persistence.CandidateStore;
+import ru.job4j.dream.service.CandidateService;
 
 /**
  * 3.2.2. Html, Bootstrap, Thymeleaf
@@ -16,17 +17,19 @@ import ru.job4j.dream.store.CandidateStore;
  * 8. HTML form. Создание кандидата. [#504845]
  * 4. PostController.savePost. Редактирование вакансии. [#504850]
  * 5. Создания и редактирования кандидатов. [#504858]
+ * 3.2.4. Архитектура Web приложений.
+ * 1. Слоеная архитектура. Принцип DI. [#504851].
  *
  * @author Dmitry Stepanov, user Dmitry
  * @since 28.03.2022
  */
 @Controller
 public class CandidateController {
-    private final CandidateStore candidateStore = CandidateStore.instOf();
+    private final CandidateService candidateService = new CandidateService(CandidateStore.instOf());
 
     @GetMapping("/candidates")
     public String candidates(Model model) {
-        model.addAttribute("candidates", candidateStore.findAll());
+        model.addAttribute("candidates", candidateService.findAll());
         return "candidates";
     }
 
@@ -37,19 +40,19 @@ public class CandidateController {
 
     @PostMapping("/createCandidate")
     public String createCandidate(@ModelAttribute Candidate candidate) {
-        candidateStore.create(candidate);
+        candidateService.create(candidate);
         return "redirect:/candidates";
     }
 
     @GetMapping("/updateCandidate/{candidateId}")
     public String fromUpdateCandidate(Model model, @PathVariable("candidateId") int id) {
-        model.addAttribute("candidate", candidateStore.findById(id));
+        model.addAttribute("candidate", candidateService.findById(id));
         return "updateCandidate";
     }
 
     @PostMapping("/updateCandidate")
     public String updateCandidate(@ModelAttribute Candidate candidate) {
-        candidateStore.update(candidate);
+        candidateService.update(candidate);
         return "redirect:/candidates";
     }
 }

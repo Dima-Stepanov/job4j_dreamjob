@@ -1,4 +1,4 @@
-package ru.job4j.dream.store;
+package ru.job4j.dream.persistence;
 
 import ru.job4j.dream.model.Candidate;
 
@@ -13,11 +13,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  * PostStore. Хранилище Post. Singleton.
  * 4. PostController.savePost. Редактирование вакансии. [#504850]
  * 5. Создания и редактирования кандидатов. [#504858]
+ * 3.2.4. Архитектура Web приложений.
+ * 1. Слоеная архитектура. Принцип DI. [#504851].
  *
  * @author Dmitry Stepanov, user Dmitry
  * @since 28.03.2022
  */
-public class CandidateStore {
+public class CandidateStore implements Store<Candidate> {
     private static final CandidateStore INST = new CandidateStore();
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
     private final AtomicInteger key = new AtomicInteger();
