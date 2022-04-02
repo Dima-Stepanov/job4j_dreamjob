@@ -28,13 +28,17 @@ public class PostStore {
     private final AtomicInteger key = new AtomicInteger();
 
     private PostStore() {
-        posts.computeIfAbsent(key.incrementAndGet(), k -> new Post(k, "Junior Java Job", "salary 1000$"));
-        posts.computeIfAbsent(key.incrementAndGet(), k -> new Post(k, "Middle Java Job", "salary 2000$"));
-        posts.computeIfAbsent(key.incrementAndGet(), k -> new Post(k, "Senior Java Job", "salary 4000$"));
+        posts.computeIfAbsent(key.incrementAndGet(),
+                k -> new Post(k, "Junior Java Job", true, "salary 1000$"));
+        posts.computeIfAbsent(key.incrementAndGet(),
+                k -> new Post(k, "Middle Java Job", false, "salary 2000$"));
+        posts.computeIfAbsent(key.incrementAndGet(),
+                k -> new Post(k, "Senior Java Job", false, "salary 4000$"));
     }
 
     public Post create(Post post) {
-        return posts.computeIfAbsent(key.incrementAndGet(), k -> new Post(k, post.getName(), post.getDescription()));
+        return posts.computeIfAbsent(key.incrementAndGet(),
+                k -> new Post(k, post.getName(), post.isVisible(), post.getDescription()));
     }
 
     public Post update(Post post) {
