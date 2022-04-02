@@ -1,12 +1,13 @@
 package ru.job4j.dream.model;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
  * 3.2.2. Html, Bootstrap, Thymeleaf
  * 4. Thymeleaf, Циклы. [#504841]
+ * 3.2.5. Формы
+ * 1. Формы. Поля ввода.   [#504853 #283619]
  * Post. Модель данных ВАКАНСИЯ.
  *
  * @author Dmitry Stepanov, user Dmitry
@@ -16,12 +17,14 @@ public class Post {
     private int id;
     private String name;
     private String description;
+    private boolean visible;
     private LocalDateTime created = LocalDateTime.now().withNano(0);
 
 
-    public Post(int id, String name, String description) {
+    public Post(int id, String name, boolean visible, String description) {
         this.id = id;
         this.name = name;
+        this.visible = visible;
         this.description = description;
     }
 
@@ -55,6 +58,14 @@ public class Post {
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     @Override
