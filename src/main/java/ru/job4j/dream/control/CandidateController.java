@@ -3,12 +3,23 @@ package ru.job4j.dream.control;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.service.CandidateService;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import ru.job4j.dream.model.Candidate;
+import ru.job4j.dream.service.CandidateService;
+
+import java.io.IOException;
 
 /**
  * 3.2.2. Html, Bootstrap, Thymeleaf
@@ -20,6 +31,8 @@ import ru.job4j.dream.service.CandidateService;
  * 3.2.4. Архитектура Web приложений.
  * 1. Слоеная архитектура. Принцип DI. [#504851].
  * 2. Связь слоев через Spring DI. [#504856]
+ * 3.2.5. Формы
+ * 3. Формы. Загрузка файла на сервер. [#504855]
  *
  * @author Dmitry Stepanov, user Dmitry
  * @since 28.03.2022
@@ -45,7 +58,9 @@ public class CandidateController {
     }
 
     @PostMapping("/createCandidate")
-    public String createCandidate(@ModelAttribute Candidate candidate) {
+    public String createCandidate(@ModelAttribute Candidate candidate,
+                                  @RequestParam("file") MultipartFile file) throws IOException {
+        candidate.setPhoto(file.getBytes());
         candidateService.create(candidate);
         return "redirect:/candidates";
     }
@@ -57,8 +72,20 @@ public class CandidateController {
     }
 
     @PostMapping("/updateCandidate")
-    public String updateCandidate(@ModelAttribute Candidate candidate) {
+    public String updateCandidate(@ModelAttribute Candidate candidate,
+                                  @RequestParam("file") MultipartFile file) throws IOException {
+        candidate.setPhoto(file.getBytes());
         candidateService.update(candidate);
         return "redirect:/candidates";
+    }
+
+    @GetMapping("/photoCandidate/{candidateId}")
+    public ResponseEntity<Resource> download(@PathVariable("candidateId") Integer candidateId) {
+        Candidate candidate = candidateService.findById(candidateId);
+        return ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .contentLength(candidate.getPhoto().length)
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(new ByteArrayResource(candidate.getPhoto()));
     }
 }

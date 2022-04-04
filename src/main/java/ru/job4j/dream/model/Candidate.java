@@ -8,6 +8,8 @@ import java.util.Objects;
  * 5. Список Вакансий [#504842]
  * Candidate. Модель данных кандидатов.
  * 5. Создания и редактирования кандидатов. [#504858]
+ * 3.2.5. Формы
+ * 3. Формы. Загрузка файла на сервер. [#504855]
  *
  * @author Dmitry Stepanov, user Dmitry
  * @since 28.03.2022
@@ -16,12 +18,14 @@ public class Candidate {
     private int id;
     private String name;
     private String description;
+    private byte[] photo;
     private LocalDateTime created = LocalDateTime.now().withNano(0);
 
-    public Candidate(int id, String name, String description) {
+    public Candidate(int id, String name, String description, byte[] photo) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.photo = photo;
     }
 
     public int getId() {
@@ -54,6 +58,14 @@ public class Candidate {
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
     @Override

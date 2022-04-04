@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -53,6 +53,10 @@
             <tbody>
             <tr th:each="candidate: ${candidates}">
                 <td th:text="${candidate.id}"/>
+                <td>
+                    <img th:width="150" th:high="150" th:src="@{|/photoCandidate/${candidate.id}|}">
+                    <span th:text="${candidate.name}"></span>
+                </td>
                 <td>
                     <a th:href="@{|/updateCandidate/${candidate.id}|}">
                         <i class="fa fa-edit"></i>
