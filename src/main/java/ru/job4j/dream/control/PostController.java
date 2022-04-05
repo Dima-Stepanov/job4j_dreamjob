@@ -11,6 +11,8 @@ import ru.job4j.dream.model.Post;
 import ru.job4j.dream.service.CityService;
 import ru.job4j.dream.service.PostService;
 
+import java.util.Optional;
+
 
 /**
  * 3.2.2. Html, Bootstrap, Thymeleaf

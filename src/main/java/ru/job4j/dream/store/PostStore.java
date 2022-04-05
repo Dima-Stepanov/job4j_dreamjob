@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Repository
 @ThreadSafe
-public class PostStore {
+public class PostStore implements Store<Post> {
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final AtomicInteger key = new AtomicInteger();
 
@@ -40,19 +40,23 @@ public class PostStore {
                 k -> new Post(k, "Senior Java Job", false, "salary 4000$", new City(33, "Саратов")));
     }
 
+    @Override
     public Post create(Post post) {
         return posts.computeIfAbsent(key.incrementAndGet(),
                 k -> new Post(k, post.getName(), post.isVisible(), post.getDescription(), post.getCity()));
     }
 
+    @Override
     public Post update(Post post) {
         return posts.replace(post.getId(), post);
     }
 
+    @Override
     public Post findById(int id) {
         return posts.get(id);
     }
 
+    @Override
     public Collection<Post> findAll() {
         return posts.values();
     }

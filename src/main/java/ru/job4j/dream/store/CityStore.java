@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 04.04.2022
  */
 @Repository
-public class CityStore {
+public class CityStore implements Store<City> {
     private final ConcurrentHashMap<Integer, City> cities = new ConcurrentHashMap<>();
     private final AtomicInteger key = new AtomicInteger();
 
@@ -29,20 +29,24 @@ public class CityStore {
                 k -> new City(k, "Краснодар"));
     }
 
-    public City created(City city) {
+    @Override
+    public City create(City city) {
         return cities.computeIfAbsent(key.incrementAndGet(),
                 k -> new City(k, city.getName()));
     }
 
+    @Override
     public City update(City city) {
         return cities.replace(city.getId(), city);
     }
 
+    @Override
     public City findById(int id) {
         return cities.get(id);
     }
 
-    public Collection<City> getAllCities() {
+    @Override
+    public Collection<City> findAll() {
         return cities.values();
     }
 }

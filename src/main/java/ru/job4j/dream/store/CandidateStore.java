@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Repository
 @ThreadSafe
-public class CandidateStore {
+public class CandidateStore implements Store<Candidate> {
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
     private final AtomicInteger key = new AtomicInteger();
 
@@ -36,18 +36,22 @@ public class CandidateStore {
         candidates.computeIfAbsent(key.incrementAndGet(), k -> new Candidate(k, "Sergey Galkin", "Senior Developer", new byte[0]));
     }
 
+    @Override
     public Candidate create(Candidate candidate) {
         return candidates.computeIfAbsent(key.incrementAndGet(), k -> new Candidate(k, candidate.getName(), candidate.getDescription(), candidate.getPhoto()));
     }
 
+    @Override
     public Candidate update(Candidate candidate) {
         return candidates.replace(candidate.getId(), candidate);
     }
 
+    @Override
     public Candidate findById(int id) {
         return candidates.get(id);
     }
 
+    @Override
     public Collection<Candidate> findAll() {
         return candidates.values();
     }

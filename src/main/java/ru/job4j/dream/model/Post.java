@@ -64,10 +64,13 @@ public class Post {
     }
 
     public boolean isVisible() {
+        if (visible == null) {
+            visible = false;
+        }
         return visible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible(Boolean visible) {
         this.visible = visible;
     }
 
