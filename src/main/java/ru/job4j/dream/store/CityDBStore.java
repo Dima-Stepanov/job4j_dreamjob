@@ -35,7 +35,7 @@ public class CityDBStore implements Store<City> {
      */
     @Override
     public City create(City city) {
-        String sql = "INSETR INTTO city(name) VALUES(?)";
+        String sql = "INSERT INTO city(name) VALUES(?)";
         try (Connection connection = pool.getConnection(); PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, city.getName());
             statement.execute();

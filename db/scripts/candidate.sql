@@ -6,4 +6,3 @@ description text,
 photo bytea,
 created timestamp
 );
-ALTER SEQUENCE serial RESTART WITH 1
