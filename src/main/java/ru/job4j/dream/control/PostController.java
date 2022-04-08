@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.service.CityService;
 import ru.job4j.dream.service.PostService;
+
+import java.util.Optional;
 
 
 /**
@@ -20,6 +23,8 @@ import ru.job4j.dream.service.PostService;
  * 3.2.4. Архитектура Web приложений.
  * 1. Слоеная архитектура. Принцип DI. [#504851].
  * 2. Связь слоев через Spring DI. [#504856]
+ * 3.2.5. Формы
+ * 2. Формы. Списки. [#504854]
  *
  * @author Dmitry Stepanov, user Dmitry
  * @since 28.03.2022
@@ -28,11 +33,19 @@ import ru.job4j.dream.service.PostService;
 @ThreadSafe
 public class PostController {
     private final PostService postService;
+    private final CityService cityService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, CityService cityService) {
         this.postService = postService;
+        this.cityService = cityService;
     }
 
+    /**
+     * Вывод списка post в вид posts.html.
+     *
+     * @param model Post.
+     * @return find All Post.
+     */
     @GetMapping("/posts")
     public String posts(Model model) {
         model.addAttribute("posts", postService.findAll());
@@ -41,9 +54,16 @@ public class PostController {
 
     @GetMapping("/addPost")
     public String addPost(Model model) {
+        model.addAttribute("cities", cityService.findAll());
         return "addPost";
     }
 
+    /**
+     * Добавление нового поста через вид addPost.html
+     *
+     * @param post new Post.
+     * @return findAll post
+     */
     @PostMapping("/createPost")
     public String createPost(@ModelAttribute Post post) {
         postService.create(post);
@@ -53,11 +73,13 @@ public class PostController {
     @GetMapping("/updatePost/{postId}")
     public String formUpdatePost(Model model, @PathVariable("postId") int id) {
         model.addAttribute("post", postService.findById(id));
+        model.addAttribute("cities", cityService.findAll());
         return "updatePost";
     }
 
     @PostMapping("/updatePost")
     public String updatePost(@ModelAttribute Post post) {
+        post.setCity(cityService.findById(post.getCity().getId()));
         postService.update(post);
         return "redirect:/posts";
     }

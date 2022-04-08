@@ -41,32 +41,19 @@
             </div>
         </div>
     </nav>
-    <div class="row">
+    <div class="table">
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Имя</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Создан</th>
+                <th scope="col">Error 404</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="candidate: ${candidates}">
-                <td th:text="${candidate.id}"/>
-                <td>
-                    <img th:width="150" th:high="150" th:src="@{|/photoCandidate/${candidate.id}|}">
-                    <a th:href="@{|/updateCandidate/${candidate.id}|}">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    <span th:text="${candidate.name}"></span>
-                </td>
-                <td th:text="${candidate.description}"/>
-                <td th:text="${candidate.created}"/>
+            <tr>
+                <td th:text="${message}"/>
             </tr>
             </tbody>
         </table>
     </div>
-</div>
 </body>
 </html>

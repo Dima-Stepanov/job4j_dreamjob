@@ -1,30 +1,35 @@
 package ru.job4j.dream.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
  * 3.2.2. Html, Bootstrap, Thymeleaf
  * 4. Thymeleaf, Циклы. [#504841]
+ * 3.2.5. Формы
+ * 1. Формы. Поля ввода.   [#504853 #283619]
+ * 2. Формы. Списки. [#504854]
  * Post. Модель данных ВАКАНСИЯ.
  *
  * @author Dmitry Stepanov, user Dmitry
  * @since 28.03.2022
  */
-public class Post {
+public class Post implements Serializable {
     private int id;
     private String name;
+    private Boolean visible;
     private String description;
-    private boolean visible;
+    private City city;
     private LocalDateTime created = LocalDateTime.now().withNano(0);
 
 
-    public Post(int id, String name, boolean visible, String description) {
+    public Post(int id, String name, Boolean visible, String description, City city) {
         this.id = id;
         this.name = name;
         this.visible = visible;
         this.description = description;
+        this.city = city;
     }
 
     public int getId() {
@@ -60,11 +65,22 @@ public class Post {
     }
 
     public boolean isVisible() {
+        if (visible == null) {
+            visible = false;
+        }
         return visible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible(Boolean visible) {
         this.visible = visible;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
     @Override

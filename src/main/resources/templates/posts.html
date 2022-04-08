@@ -37,6 +37,7 @@
                 <a class="nav-item nav-link" th:href="@{/addPost}">Добавить вакансию</a>
                 <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
                 <a class="nav-item nav-link" th:href="@{/addCandidate}">Добавить кандидата</a>
+                <a class="nav-item nav-link" th:href="@{/addUser}">Добавить пользователя</a>
             </div>
         </div>
     </nav>
@@ -47,6 +48,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Имя</th>
                 <th scope="col">Описание</th>
+                <th scope="col">Город</th>
                 <th scope="col">Создан</th>
             </tr>
             </thead>
@@ -66,6 +68,7 @@
                     </span>
                 </td>
                 <td th:text="${post.description}"/>
+                <td th:text="${post.city.name}"/>
                 <td th:text="${post.created}"/>
             </tr>
             </tbody>

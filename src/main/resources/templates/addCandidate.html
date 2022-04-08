@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -36,6 +36,7 @@
                 <a class="nav-item nav-link" th:href="@{/addPost}">Добавить вакансию</a>
                 <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
                 <a class="nav-item nav-link" th:href="@{/addCandidate}">Добавить кандидата</a>
+                <a class="nav-item nav-link" th:href="@{/addUser}">Добавить пользователя</a>
             </div>
         </div>
     </nav>
@@ -45,7 +46,7 @@
                 Новый кандидат.
             </div>
             <div class="card-body">
-                <form th:action="@{/createCandidate}" method="POST">
+                <form th:action="@{/createCandidate}" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="0">
                     <div class="from-group">
                         <label for="name">Имя</label>
@@ -54,6 +55,10 @@
                     <div class="from-group">
                         <label for="description">Описание</label>
                         <input type="text" class="from-control" name="description" id="description">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Фотография</label>
+                        <input type="file" class="form-control" name="file" id="file">
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>
