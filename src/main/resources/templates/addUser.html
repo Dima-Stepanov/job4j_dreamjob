@@ -36,7 +36,7 @@
                 <a class="nav-item nav-link" th:href="@{/addPost}">Добавить вакансию</a>
                 <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
                 <a class="nav-item nav-link" th:href="@{/addCandidate}">Добавить кандидата</a>
-                <a class="nav-item nav-link" th:href="@{/addUser}">Добавить пользователя</a>
+                <a class="nav-item nav-link" th:href="@{/userPage}">Добавить пользователя</a>
             </div>
         </div>
     </nav>
@@ -46,11 +46,20 @@
                 Новый пользователь
             </div>
             <div class="card-body">
-                <form th:action="@{/createUser}" method="post" enctype="multipart/form-data">
+                <div class="card-body">
+                    <div th:if="${fail}" class="alert alert-danger" role="alert">
+                        Такой пользователь уже существует
+                    </div>
+                </div>
+                <form th:action="@{/addUser}" method="post">
                     <input type="hidden" name="id" value="0">
                     <div class="from-group">
-                        <label for="name">Имя</label>
-                        <input type="text" class="from-control" name="name" id="name">
+                        <label for="email">Почта</label>
+                        <input type="text" class="from-control" name="email" id="email">
+                    </div>
+                    <div class="from-group">
+                        <label for="password">Пароль</label>
+                        <input type="text" class="from-control" name="password" id="password">
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>

@@ -14,6 +14,8 @@ import java.util.Optional;
 /**
  * 3.2.6. DabaBase в Web
  * 4. Многопоточность в базе данных [#504860]
+ * 3.2.7. Авторизация и аутентификация
+ * 1. Страница login.html [#504863]
  * UserController контролер.
  *
  * @author Dmitry Stepanov, user Dmitry
@@ -27,29 +29,37 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/addUser")
-    public String addUser(Model model) {
+    @GetMapping("/userPage")
+    public String userPage(Model model, @RequestParam(name = "fail",
+            required = false) Boolean fail) {
+        model.addAttribute("fail", fail != null);
         return "addUser";
     }
 
-    @GetMapping("/fail")
-    public String fail(Model model) {
-        model.addAttribute("message", "Пользователь с таким именем уже существует");
-        return "fail";
-    }
-
-    @GetMapping("/success")
-    public String success(Model model) {
-        model.addAttribute("message", "Пользователь успешно добавлен");
-        return "success";
-    }
-
-    @PostMapping("/createUser")
-    public String createUser(@ModelAttribute User user) {
+    @PostMapping("/addUser")
+    public String addUser(@ModelAttribute User user) {
         Optional<User> regUser = userService.create(user);
         if (regUser.isEmpty()) {
-            return "redirect:/fail";
+            return "redirect:/userPage?fail=true";
         }
-        return "redirect:/success";
+        return "redirect:/index";
+    }
+
+    @GetMapping("/loginPage")
+    public String loginPage(Model model, @RequestParam(name = "fail",
+            required = false) Boolean fail) {
+        model.addAttribute("fail", fail != null);
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String login(@ModelAttribute User user) {
+        Optional<User> userDb = userService.findUserByEmailAndPwd(
+                user.getEmail(), user.getPassword()
+        );
+        if (userDb.isEmpty()) {
+            return "redirect:/loginPage?fail=true";
+        }
+        return "redirect:/index";
     }
 }

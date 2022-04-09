@@ -11,6 +11,8 @@ import java.util.Optional;
 /**
  * 3.2.6. DabaBase в Web
  * 4. Многопоточность в базе данных [#504860]
+ * 3.2.7. Авторизация и аутентификация
+ * 1. Страница login.html [#504863]
  * UserService слой service User.
  *
  * @author Dmitry Stepanov, user Dmitry
@@ -32,11 +34,15 @@ public class UserService {
         return store.update(user);
     }
 
-    public User findById(int id) {
+    public Optional<User> findById(int id) {
         return store.findById(id);
     }
 
     public Collection<User> findAll() {
         return store.findAll();
+    }
+
+    public Optional<User> findUserByEmailAndPwd(String email, String password) {
+        return store.findUserByEmailAndPwd(email, password);
     }
 }
