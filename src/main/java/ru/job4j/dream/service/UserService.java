@@ -3,6 +3,7 @@ package ru.job4j.dream.service;
 import org.springframework.stereotype.Service;
 import ru.job4j.dream.model.User;
 import ru.job4j.dream.store.Store;
+import ru.job4j.dream.store.UserDBStore;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -17,14 +18,14 @@ import java.util.Optional;
  */
 @Service
 public class UserService {
-    private final Store<User> store;
+    private final UserDBStore store;
 
-    public UserService(Store<User> store) {
+    public UserService(UserDBStore store) {
         this.store = store;
     }
 
     public Optional<User> create(User user) {
-        return Optional.ofNullable(store.create(user));
+        return store.create(user);
     }
 
     public User update(User user) {

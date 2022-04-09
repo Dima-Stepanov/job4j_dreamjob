@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * 3.2.6. DabaBase в Web
@@ -20,7 +21,7 @@ import java.util.Collection;
  * @since 07.04.2022
  */
 @Repository
-public class UserDBStore implements Store<User> {
+public class UserDBStore {
     BasicDataSource pool;
 
     public UserDBStore(BasicDataSource pool) {
@@ -33,8 +34,7 @@ public class UserDBStore implements Store<User> {
      * @param user User.
      * @return User.
      */
-    @Override
-    public User create(User user) {
+    public Optional<User> create(User user) {
         User result = null;
         String sql = "INSERT INTO users(name) VALUES(?);";
         try (Connection connection = pool.getConnection();
@@ -50,7 +50,7 @@ public class UserDBStore implements Store<User> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return Optional.ofNullable(result);
     }
 
     /**
@@ -59,7 +59,6 @@ public class UserDBStore implements Store<User> {
      * @param user User
      * @return User.
      */
-    @Override
     public User update(User user) {
         User result = null;
         String sql = "UPDATE users SET name = ? WHERE user_id = ?;";
@@ -82,7 +81,6 @@ public class UserDBStore implements Store<User> {
      * @param id int
      * @return User.
      */
-    @Override
     public User findById(int id) {
         User user = null;
         String sql = "SELECT * FROM users WHERE user_id = ?;";
@@ -105,7 +103,6 @@ public class UserDBStore implements Store<User> {
      *
      * @return Collection.
      */
-    @Override
     public Collection<User> findAll() {
         Collection<User> result = new ArrayList<>();
         String sql = "SELECT * FROM users;";
