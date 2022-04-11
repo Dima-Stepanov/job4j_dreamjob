@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 import ru.job4j.dream.service.CityService;
 import ru.job4j.dream.service.PostService;
 
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 
@@ -47,13 +49,23 @@ public class PostController {
      * @return find All Post.
      */
     @GetMapping("/posts")
-    public String posts(Model model) {
+    public String posts(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User(-1, "Гость", "");
+        }
+        model.addAttribute("user", user);
         model.addAttribute("posts", postService.findAll());
         return "posts";
     }
 
     @GetMapping("/addPost")
-    public String addPost(Model model) {
+    public String addPost(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User(-1, "Гость", "");
+        }
+        model.addAttribute("user", user);
         model.addAttribute("cities", cityService.findAll());
         return "addPost";
     }
@@ -71,7 +83,12 @@ public class PostController {
     }
 
     @GetMapping("/updatePost/{postId}")
-    public String formUpdatePost(Model model, @PathVariable("postId") int id) {
+    public String formUpdatePost(Model model, @PathVariable("postId") int id, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User(-1, "Гость", "");
+        }
+        model.addAttribute("user", user);
         model.addAttribute("post", postService.findById(id));
         model.addAttribute("cities", cityService.findAll());
         return "updatePost";
